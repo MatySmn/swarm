@@ -37,6 +37,7 @@ class Swarm:
         model_override: str,
         stream: bool,
         debug: bool,
+        temperature: float
     ) -> ChatCompletionMessage:
         context_variables = defaultdict(str, context_variables)
         instructions = (
@@ -61,6 +62,7 @@ class Swarm:
             "tools": tools or None,
             "tool_choice": agent.tool_choice,
             "stream": stream,
+            "temperature": temperature,
         }
 
         if tools:
@@ -238,6 +240,7 @@ class Swarm:
         debug: bool = False,
         max_turns: int = float("inf"),
         execute_tools: bool = True,
+        temperature: float = 1.0
     ) -> Response:
         if stream:
             return self.run_and_stream(
@@ -264,6 +267,7 @@ class Swarm:
                 model_override=model_override,
                 stream=stream,
                 debug=debug,
+                temperature=temperature
             )
             message = completion.choices[0].message
             debug_print(debug, "Received completion:", message)
